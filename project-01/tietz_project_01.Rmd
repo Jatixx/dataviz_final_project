@@ -70,37 +70,7 @@ Summer hits have become progressively louder, more energetic, and less acoustic
 since the 1950s. Valence (musical "happiness") shows interesting variation, peaking
 in the 1970s and 1980s before declining slightly in recent decades.
 
-```{r plot-trends old, fig.width=10, fig.height=6}
-# Summarize mean audio features by decade
-#OLD
-feature_trends <- billboard %>%
-  group_by(decade) %>%
-  summarise(
-    Danceability = mean(danceability, na.rm = TRUE),
-    Energy       = mean(energy, na.rm = TRUE),
-    Valence      = mean(valence, na.rm = TRUE),
-    Acousticness = mean(acousticness, na.rm = TRUE)
-  ) %>%
-  pivot_longer(-decade, names_to = "feature", values_to = "mean_value")
-
-ggplot(feature_trends, aes(x = decade, y = mean_value, color = feature, group = feature)) +
-  geom_line(linewidth = 1.2) +
-  geom_point(size = 3) +
-  scale_color_brewer(palette = "Set2") +
-  labs(
-    title    = "How the Sound of Summer Has Changed (1958–2017)",
-    subtitle = "Mean Spotify audio features per decade across Billboard summer hits",
-    x        = "Decade",
-    y        = "Mean Feature Value (0–1 scale)",
-    color    = "Audio Feature"
-  ) +
-  theme_minimal(base_size = 13) +
-  theme(
-    plot.title    = element_text(face = "bold"),
-    legend.position = "bottom"
-  )
-```
-```{r plot-trends new, fig.width=10, fig.height=6}
+```{r plot-trends new, fig.width=10, fig.height=6, fig.alt="Line chart of mean Spotify audio features per decade, 1950s to 2010s. Acousticness drops sharply, energy and danceability rise, and valence peaks in the 1970s before declining."}
 #NEW
 feature_trends <- billboard %>%
   group_by(decade) %>%
@@ -142,15 +112,17 @@ A small group of artists account for a disproportionately large share of summer 
 appearances. Examining this reveals which artists have had the longest-lasting commercial
 relevance in the summer season. 
 
-```{r plot-top-artists, fig.width=9, fig.height=6}
+```{r plot-top-artists, fig.width=9, fig.height=6, fig.alt="Horizontal bar chart of the 15 artists with the most Billboard summer hits from 1958 to 2017, ranked by number of charting songs, with a count label at the end of each bar and the most frequent artists at the top."}
 top_artists <- billboard %>%
   count(artist_name, sort = TRUE) %>%
   slice_head(n = 15)
 
 ggplot(top_artists, aes(x = reorder(artist_name, n), y = n, fill = n)) +
   geom_col(show.legend = FALSE) +
+  geom_text(aes(label = n), hjust = -0.3, size = 3.5, color = "grey30") +
   coord_flip() +
   scale_fill_gradient(low = "#a8dadc", high = "#1d3557") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.08))) +
   labs(
     title    = "Top 15 Artists on the Billboard Summer Charts (1958–2017)",
     subtitle = "Ranked by total number of charting songs",
@@ -160,7 +132,7 @@ ggplot(top_artists, aes(x = reorder(artist_name, n), y = n, fill = n)) +
   theme_minimal(base_size = 13) +
   theme(plot.title = element_text(face = "bold"))
 ```
-
+The single-hue blue gradient varies only in lightness and is already colorblind-safe, so I kept it. I added a numeric label at the end of each bar so the exact hit counts are readable without having to estimate bar length.
 ---
 
 ## Visualization 3: Distribution of Danceability by Decade
