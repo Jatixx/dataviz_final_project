@@ -1,0 +1,287 @@
+---
+title: "Data Visualization - Mini-Project 1"
+author: "Jan Tietz `jtietz3060@floridapoly.edu`"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## Introduction
+
+This report explores the **Billboard Summer Hits dataset (1958–2017)**, which contains
+Spotify audio features for songs that appeared on the Billboard summer charts over six
+decades. The dataset includes acoustic properties such as danceability, energy, valence,
+tempo, and loudness, alongside metadata like artist name, track name, and year.
+
+The goal is to uncover how the sound of popular summer music has changed over time, which
+artists dominated the charts, and how different audio features relate to each other.
+
+---
+
+## Setup and Data Loading
+
+```{r load-data}
+library(tidyverse)
+
+# Load dataset directly from GitHub
+billboard <- read_csv("../data/all_billboard_summer_hits.csv")
+```
+
+---
+
+## Data Exploration
+
+```{r explore}
+# Overview of the dataset
+glimpse(billboard)
+```
+
+```{r missing}
+# Check for missing values per column
+billboard %>%
+  summarise(across(everything(), ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "missing") %>%
+  filter(missing > 0)
+```
+There are no missing values in the dataset.
+```{r summary-stats}
+# Summary of key numeric audio features
+billboard %>%
+  select(year, danceability, energy, valence, tempo, loudness, acousticness) %>%
+  summary()
+```
+
+```{r decade}
+# Add a decade column for grouped analysis
+billboard <- billboard %>%
+  mutate(decade = paste0(floor(year / 10) * 10, "s"))
+```
+
+---
+
+## Visualization 1: Audio Feature Trends Over Time
+
+**What story does this tell?**
+Summer hits have become progressively louder, more energetic, and less acoustic
+since the 1950s. Valence (musical "happiness") shows interesting variation, peaking
+in the 1970s and 1980s before declining slightly in recent decades.
+
+```{r plot-trends old, fig.width=10, fig.height=6}
+# Summarize mean audio features by decade
+#OLD
+feature_trends <- billboard %>%
+  group_by(decade) %>%
+  summarise(
+    Danceability = mean(danceability, na.rm = TRUE),
+    Energy       = mean(energy, na.rm = TRUE),
+    Valence      = mean(valence, na.rm = TRUE),
+    Acousticness = mean(acousticness, na.rm = TRUE)
+  ) %>%
+  pivot_longer(-decade, names_to = "feature", values_to = "mean_value")
+
+ggplot(feature_trends, aes(x = decade, y = mean_value, color = feature, group = feature)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  scale_color_brewer(palette = "Set2") +
+  labs(
+    title    = "How the Sound of Summer Has Changed (1958–2017)",
+    subtitle = "Mean Spotify audio features per decade across Billboard summer hits",
+    x        = "Decade",
+    y        = "Mean Feature Value (0–1 scale)",
+    color    = "Audio Feature"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title    = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
+```
+```{r plot-trends new, fig.width=10, fig.height=6}
+#NEW
+feature_trends <- billboard %>%
+  group_by(decade) %>%
+  summarise(
+    Danceability = mean(danceability, na.rm = TRUE),
+    Energy       = mean(energy, na.rm = TRUE),
+    Valence      = mean(valence, na.rm = TRUE),
+    Acousticness = mean(acousticness, na.rm = TRUE)
+  ) %>%
+  pivot_longer(-decade, names_to = "feature", values_to = "mean_value")
+
+ggplot(feature_trends, aes(x = decade, y = mean_value,
+                           color = feature, group = feature,
+                           linetype = feature)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  scale_color_viridis_d(end = 0.9) +
+  labs(
+    title    = "How the Sound of Summer Has Changed (1958–2017)",
+    subtitle = "Mean Spotify audio features per decade across Billboard summer hits",
+    x        = "Decade",
+    y        = "Mean Feature Value (0–1 scale)",
+    color    = "Audio Feature",
+    linetype = "Audio Feature"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title    = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
+```
+I replaced the original Set2 palette with the colorblind-safe viridis scale, and each feature is also encoded by line type so the four series stay distinguishable without relying on color alone.
+---
+
+## Visualization 2: Top 15 Artists by Number of Summer Hits
+
+**What story does this tell?**
+A small group of artists account for a disproportionately large share of summer chart
+appearances. Examining this reveals which artists have had the longest-lasting commercial
+relevance in the summer season. 
+
+```{r plot-top-artists, fig.width=9, fig.height=6}
+top_artists <- billboard %>%
+  count(artist_name, sort = TRUE) %>%
+  slice_head(n = 15)
+
+ggplot(top_artists, aes(x = reorder(artist_name, n), y = n, fill = n)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  scale_fill_gradient(low = "#a8dadc", high = "#1d3557") +
+  labs(
+    title    = "Top 15 Artists on the Billboard Summer Charts (1958–2017)",
+    subtitle = "Ranked by total number of charting songs",
+    x        = NULL,
+    y        = "Number of Summer Hits"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+---
+
+## Visualization 3: Distribution of Danceability by Decade
+
+**What story does this tell?**
+The distribution of danceability scores has shifted noticeably across decades. Modern
+hits cluster at higher danceability values, whereas tracks from the 1950s and 1960s show
+wider spread and lower medians, reflecting the shift from acoustic pop toward
+rhythm-driven genres.
+
+```{r plot-dance-dist, fig.width=10, fig.height=5}
+ggplot(billboard, aes(x = decade, y = danceability, fill = decade)) +
+  geom_boxplot(alpha = 0.8, outlier.alpha = 0.3, outlier.size = 1) +
+  scale_fill_brewer(palette = "Spectral") +
+  labs(
+    title    = "Danceability of Summer Hits by Decade",
+    subtitle = "Distribution of Spotify danceability scores across eras",
+    x        = "Decade",
+    y        = "Danceability (0 = least danceable, 1 = most danceable)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title      = element_text(face = "bold"),
+    legend.position = "none"
+  )
+```
+
+---
+
+## Visualization 4: Danceability vs. Energy, Colored by Valence
+
+**What story does this tell?**
+This scatterplot reveals the relationship between two key features: danceability and
+energy. Songs in the upper-right quadrant are both danceable and high-energy, which
+tends to align with higher valence (happier-sounding songs). This confirms that
+summer hits often aim for an upbeat, feel-good character, though there is notable
+variety.
+
+```{r plot-scatter, fig.width=9, fig.height=6}
+ggplot(billboard, aes(x = danceability, y = energy, color = valence)) +
+  geom_point(alpha = 0.5, size = 1.8) +
+  scale_color_viridis_c(option = "plasma", name = "Valence\n(positivity)") +
+  labs(
+    title    = "Danceability vs. Energy in Billboard Summer Hits",
+    subtitle = "Each point is one song; color represents musical valence (positivity)",
+    x        = "Danceability",
+    y        = "Energy"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+
+---
+
+## Discussion
+
+### What were the original charts you planned to create for this assignment?
+
+
+My original plan was:
+
+1. A line chart showing how the audio features have changed decade by decade. I wanted to
+   see whether summer music has gotten more energetic or danceable over time, or whether
+   that is mostly a feeling people have that the data might not back up.
+
+2. A bar chart of the most frequent artists. This one was basically always going to be in
+   here. I was curious whether the same handful of names would dominate across six
+   decades, or if it would be more spread out.
+
+3. Some kind of distribution plot, likely a boxplot, to look at danceability across
+   different eras rather than just the mean. Averages can be misleading, and I wanted to
+   see whether some decades had a wider variety of songs or whether everything converged
+   toward a certain sound.
+
+4. A scatterplot comparing danceability and energy, which I thought would be visually
+   interesting and might reveal some clustering by feel or mood.
+
+
+---
+
+### What story could you tell with your plots?
+
+Taken together, the four visualizations tell a pretty coherent story about how popular
+summer music changed between 1958 and 2017. The short version is: summer hits got louder,
+more beat-driven, and less acoustic. But there are some more interesting wrinkles in
+that story.
+
+The line chart (Visualization 1) shows the broad arc clearly. Acousticness drops sharply
+from the 1960s onward, which makes sense if you think about the shift from acoustic
+guitar-driven pop toward electric, synthesizer-heavy, and eventually electronically
+produced music. Energy goes up fairly steadily. Danceability increases too, though it
+levels off a bit after the 1990s. What I found most surprising was the valence trend.
+Valence is Spotify's measure of how positive or happy a song sounds, and it actually
+peaks around the 1970s and then trends downward. Summer hits from the 2000s and 2010s
+are in many ways more intense and more danceable than ever, but they score lower on
+positivity than songs from 40 years ago. That felt like a genuinely interesting
+observation.
+
+The artist bar chart (Visualization 2) tells a story about longevity and market
+dominance. A few artists have managed to appear on the summer charts repeatedly over
+many years, which suggests that commercial success in pop music is not purely random.
+There are artists who have figured out how to produce songs that resonate in a particular
+season year after year. Especially Rihanna and Katy Pery have the most hits over the years.
+
+The boxplot (Visualization 3) adds some nuance to the danceability story. It is not just
+that the average went up. The spread of danceability scores also got narrower in recent
+decades, meaning there is less variation. In the 1960s you had a much wider mix of dance
+rhythms and tempos represented on the summer charts. By the 2010s the range had tightened
+considerably, which could mean that chart gatekeepers or audiences have converged on a
+more specific idea of what summer music should sound like.
+
+The scatterplot (Visualization 4) is more exploratory. It basically confirms that
+danceability and energy are positively correlated, which is not shocking, but the color
+coding by valence adds a layer. The happiest-sounding songs (bright yellow in the plasma
+color scale) tend to cluster in the upper-right where both energy and danceability are
+high. That fits with the cultural image of what a summer hit is supposed to be, though
+there are plenty of exceptions scattered throughout.
+
+
+---
+
+Most design decisions came down to matching chart type to the question. Line chart for trends, horizontal bar for ranked counts (horizontal so the names fit), boxplot instead of a mean because distributions tell a richer story, scatterplot for the relationship between two continuous variables.
+The color schemes for all visualizations were  adjusted to suit the specific type of data being presented. This approach ensures  clarity and maintains accessibility across all plots.
