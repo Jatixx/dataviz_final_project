@@ -20,7 +20,7 @@ valence, tempo, loudness, acousticness) plus track, artist, and year for each su
 finding: summer hits keep getting more energetic and danceable, but their valence
 (positivity) actually peaks in the 1970s and declines afterward.
 
-![Line chart of mean Spotify audio features per decade from the 1950s to the 2010s, showing acousticness dropping, energy and danceability rising, and valence peaking in the 1970s.](images/favorite_chart.png)
+![Line chart of mean Spotify audio features per decade from the 1950s to the 2010s, showing acousticness dropping, energy and danceability rising, and valence peaking in the 1970s.](figures/favorite_chart.png)
 
 Full report in the `project_01/` folder.
 
