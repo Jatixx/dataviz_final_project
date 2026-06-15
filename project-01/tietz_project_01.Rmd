@@ -143,10 +143,10 @@ hits cluster at higher danceability values, whereas tracks from the 1950s and 19
 wider spread and lower medians, reflecting the shift from acoustic pop toward
 rhythm-driven genres.
 
-```{r plot-dance-dist, fig.width=10, fig.height=5}
+```{r plot-dance-dist, fig.width=10, fig.height=5, fig.alt="Box plots of danceability by decade for Billboard summer hits, 1950s to 2010s. Median danceability rises over time and the spread of values narrows in the most recent decades."}
 ggplot(billboard, aes(x = decade, y = danceability, fill = decade)) +
   geom_boxplot(alpha = 0.8, outlier.alpha = 0.3, outlier.size = 1) +
-  scale_fill_brewer(palette = "Spectral") +
+    scale_fill_viridis_d() +
   labs(
     title    = "Danceability of Summer Hits by Decade",
     subtitle = "Distribution of Spotify danceability scores across eras",
@@ -159,7 +159,7 @@ ggplot(billboard, aes(x = decade, y = danceability, fill = decade)) +
     legend.position = "none"
   )
 ```
-
+I replaced the Spectral rainbow palette with the colorblind-safe viridis scale. The decade is also shown and labeled on the x-axis, so the fill is purely decorative and no meaning depends on color alone.*
 ---
 
 ## Visualization 4: Danceability vs. Energy, Colored by Valence
