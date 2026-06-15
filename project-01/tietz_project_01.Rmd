@@ -4,6 +4,7 @@ author: "Jan Tietz `jtietz3060@floridapoly.edu`"
 output:
   html_document:
     df_print: paged
+  github_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -28,9 +29,10 @@ artists dominated the charts, and how different audio features relate to each ot
 library(tidyverse)
 library(plotly)
 
-# Load dataset directly from GitHub
 billboard <- read_csv("../data/all_billboard_summer_hits.csv")
 ```
+
+
 
 ---
 
@@ -166,11 +168,36 @@ I replaced the Spectral rainbow palette with the colorblind-safe viridis scale. 
 ## Visualization 4: Danceability vs. Energy, Colored by Valence
 
 **What story does this tell?**
+This scatterplot reveals the relationship between danceability and energy. Songs in the
+upper-right quadrant are both danceable and high-energy, which tends to align with higher
+valence (happier-sounding songs), though there is notable variety.
+
+```{r plot-scatter, fig.width=9, fig.height=6, fig.alt="Scatter plot of danceability versus energy for individual Billboard summer hits, colored by valence on a plasma scale. High-valence songs cluster in the upper right where danceability and energy are both high, though there is wide variety."}
+ggplot(billboard, aes(x = danceability, y = energy, color = valence)) +
+  geom_point(alpha = 0.5, size = 1.8) +
+  scale_color_viridis_c(option = "plasma", name = "Valence\n(positivity)") +
+  labs(
+    title    = "Danceability vs. Energy in Billboard Summer Hits",
+    subtitle = "Each point is one song; color represents musical valence (positivity)",
+    x        = "Danceability",
+    y        = "Energy"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+This plot already uses the colorblind-safe viridis (plasma) scale, so I kept it. Valence is a continuous variable, which a smooth color gradient communicates well.
+
+---
+
+## Visualization 5: Interactive Danceability vs. Energy
+
+**What story does this tell?**
 This is the interactive version of the scatterplot above. Hovering over any point reveals
 the song title, artist, and exact feature values, so individual hits can be identified
 rather than seen as anonymous dots.
 
-```{r plot-scatter, fig.width=9, fig.height=6, fig.alt="Scatter plot of danceability versus energy for individual Billboard summer hits, colored by valence on a plasma scale. High-valence songs cluster in the upper right where danceability and energy are both high, though there is wide variety."}
+```{r plot-interactive, fig.width=9, fig.height=6, fig.alt="Interactive scatter plot of danceability versus energy for Billboard summer hits, colored by valence. Hovering over a point shows the song title, artist, and exact values."}
 interactive_scatter <- billboard %>%
   ggplot(aes(x = danceability, y = energy, color = valence,
              text = paste0("Song: ", track_name,

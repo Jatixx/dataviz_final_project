@@ -6,15 +6,23 @@
 The following is a sample of products created during the _"Data Visualization and Reproducible Research"_ course.
 
 
-## Project 01
+## Project 1: The Sound of Summer (Billboard Summer Hits, 1958–2017)
 
-In the `project_01/` folder you can find... _[add short description of your revised project here]_
+This mini-project explores Spotify audio features for songs that appeared on the
+Billboard summer charts across six decades. It looks at how the sound of popular summer
+music changed over time, which artists dominated the charts, and how features such as
+danceability, energy, and valence relate to one another.
 
-**Sample data visualization:** 
+**Data:** `all_billboard_summer_hits.csv`, with audio features (danceability, energy,
+valence, tempo, loudness, acousticness) plus track, artist, and year for each summer hit.
 
-_[include your favorite visualization from this project here]_
-<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/echarts.png" width="70%" height="70%">
+**Favorite chart:** the decade trend line chart, because it surfaced the most surprising
+finding: summer hits keep getting more energetic and danceable, but their valence
+(positivity) actually peaks in the 1970s and declines afterward.
 
+![Line chart of mean Spotify audio features per decade from the 1950s to the 2010s, showing acousticness dropping, energy and danceability rising, and valence peaking in the 1970s.](images/favorite_chart.png)
+
+Full report in the `project_01/` folder.
 
 ## Project 02
 
