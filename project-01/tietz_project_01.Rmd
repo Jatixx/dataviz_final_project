@@ -26,6 +26,7 @@ artists dominated the charts, and how different audio features relate to each ot
 
 ```{r load-data}
 library(tidyverse)
+library(plotly)
 
 # Load dataset directly from GitHub
 billboard <- read_csv("../data/all_billboard_summer_hits.csv")
@@ -165,26 +166,30 @@ I replaced the Spectral rainbow palette with the colorblind-safe viridis scale. 
 ## Visualization 4: Danceability vs. Energy, Colored by Valence
 
 **What story does this tell?**
-This scatterplot reveals the relationship between two key features: danceability and
-energy. Songs in the upper-right quadrant are both danceable and high-energy, which
-tends to align with higher valence (happier-sounding songs). This confirms that
-summer hits often aim for an upbeat, feel-good character, though there is notable
-variety.
+This is the interactive version of the scatterplot above. Hovering over any point reveals
+the song title, artist, and exact feature values, so individual hits can be identified
+rather than seen as anonymous dots.
 
-```{r plot-scatter, fig.width=9, fig.height=6}
-ggplot(billboard, aes(x = danceability, y = energy, color = valence)) +
+```{r plot-scatter, fig.width=9, fig.height=6, fig.alt="Scatter plot of danceability versus energy for individual Billboard summer hits, colored by valence on a plasma scale. High-valence songs cluster in the upper right where danceability and energy are both high, though there is wide variety."}
+interactive_scatter <- billboard %>%
+  ggplot(aes(x = danceability, y = energy, color = valence,
+             text = paste0("Song: ", track_name,
+                           "<br>Artist: ", artist_name,
+                           "<br>Danceability: ", round(danceability, 2),
+                           "<br>Energy: ", round(energy, 2),
+                           "<br>Valence: ", round(valence, 2)))) +
   geom_point(alpha = 0.5, size = 1.8) +
-  scale_color_viridis_c(option = "plasma", name = "Valence\n(positivity)") +
+  scale_color_viridis_c(option = "plasma", name = "Valence") +
   labs(
-    title    = "Danceability vs. Energy in Billboard Summer Hits",
-    subtitle = "Each point is one song; color represents musical valence (positivity)",
-    x        = "Danceability",
-    y        = "Energy"
+    title = "Danceability vs. Energy (Interactive)",
+    x     = "Danceability",
+    y     = "Energy"
   ) +
-  theme_minimal(base_size = 13) +
-  theme(plot.title = element_text(face = "bold"))
-```
+  theme_minimal(base_size = 13)
 
+ggplotly(interactive_scatter, tooltip = "text")
+```
+This plot already uses the colorblind-safe viridis (plasma) scale, so I kept it. Valence is a continuous variable, which a smooth color gradient communicates well.
 
 ---
 
