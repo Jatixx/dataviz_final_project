@@ -279,9 +279,3 @@ coding by valence adds a layer. The happiest-sounding songs (bright yellow in th
 color scale) tend to cluster in the upper-right where both energy and danceability are
 high. That fits with the cultural image of what a summer hit is supposed to be, though
 there are plenty of exceptions scattered throughout.
-
-
----
-
-Most design decisions came down to matching chart type to the question. Line chart for trends, horizontal bar for ranked counts (horizontal so the names fit), boxplot instead of a mean because distributions tell a richer story, scatterplot for the relationship between two continuous variables.
-The color schemes for all visualizations were  adjusted to suit the specific type of data being presented. This approach ensures  clarity and maintains accessibility across all plots.
