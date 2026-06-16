@@ -1,6 +1,6 @@
 # Data Visualization and Reproducible Research
 
-> Jan Tietz. 
+> Jan Tietz.
 
 
 ## Project 1: The Sound of Summer (Billboard Summer Hits, 1958–2017)
@@ -19,24 +19,20 @@ finding: summer hits keep getting more energetic and danceable, but their valenc
 
 ![Line chart of mean Spotify audio features per decade from the 1950s to the 2010s, showing acousticness dropping, energy and danceability rising, and valence peaking in the 1970s.](figures/favorite_chart.png)
 
-**Required elements:**
+**Required elements (where addressed):**
 
-- Interactive plotly version of the danceability vs energy scatterplot, with hover details.
-- Colorblind-safe viridis palettes and alt text on all figures, plus line type added to the trend chart so the series are readable without relying on color.
-**Summary of redesign changes (compared to the original version):**
+- Interactive: plotly version of the danceability vs energy scatterplot with hover details (Viz 5).
+- Accessibility: colorblind-safe viridis palettes and alt text on all figures, plus line type on the trend chart so the series do not rely on color alone.
+- Redesign (before/after): the danceability boxplot, changed from a Spectral rainbow palette to viridis, shown as before/after in the report (Viz 3).
 
-- Line chart (Viz 1): replaced the Set2 palette with the colorblind-safe viridis scale and added line type as a second encoding, so the four series are distinguishable without relying on color alone.
-- Artist bar chart (Viz 2): added a numeric count label at the end of each bar, so exact hit counts are readable without estimating bar length.
-- Boxplot (Viz 3): replaced the Spectral rainbow palette with the colorblind-safe, perceptually uniform viridis scale, and now show the original and the fixed version side by side as a before/after.
-- Scatterplot (Viz 4): kept the colorblind-safe viridis (plasma) scale, since it already communicates the continuous valence variable well.
-- Interactive scatterplot (Viz 5): added an interactive plotly version with hover tooltips showing song title, artist, and exact feature values.
-- Across all figures: added alt text (fig.alt) for screen-reader accessibility, and updated the YAML to also output a github_document (.md) so the report renders correctly on GitHub.
-Full report in the `project_01/` folder.
+Full report and detailed change log in the `project_01/` folder.
+
+
 ## Project 02
 
 In this project, I explored ... _[short description of your revised project goes here]_ Find the code and report in the `project_02/` folder.
 
-**Sample data visualization:** 
+**Sample data visualization:**
 
 _[include your favorite visualization from this project here]_
 <img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/fl_higher_ed.png" width="80%" height="80%">
