@@ -58,7 +58,7 @@ timeline_data <- babys %>%
 
 ```{r plot1-plot, fig.alt="Interactive line chart of the yearly count of babies for the three most popular girls' and boys' names. Female names peak earlier and more sharply, while male names stay high for longer. Every name rises, dominates for a while, and then declines."}
 # Build the static ggplot first, then make it interactive with ggplotly()
-p1 <- ggplot(data = timeline_data, aes(x = year, y = n, color = label, group = label,
+p1 <- ggplot(data = timeline_data, aes(x = year, y = n, color = label, linetype = sex, group = label,
     text  = paste0(
       "Name: ", name, "\n",
       "Sex: ",  sex,  "\n",
@@ -86,12 +86,13 @@ p1 <- ggplot(data = timeline_data, aes(x = year, y = n, color = label, group = l
     curvature = -0.3
   ) +
   scale_y_continuous(labels = scales::comma) +
-  scale_color_brewer(palette = "Paired") +
+  scale_color_viridis_d(option = "viridis") +
   labs(
     title   = "Top 3 Baby Names Over Time (Boys and Girls)",
     x       = "Year",
     y       = "Number of Babies",
-    color   = "Name"
+    color    = "Name",
+    linetype = "Sex"
   ) +
   theme_minimal()
 
@@ -103,16 +104,35 @@ saveWidget(interactive_p1, "./plot1_names_timeline.html",
 
 interactive_p1
 ```
+The interactive chart above is a redesign of my original Plot 1. For comparison,
+here is the original version as I first submitted it.
 
+```{r plot1-original, fig.alt="Static version of the baby-names line chart in its original form, using the RColorBrewer Paired palette with sex encoded by color only. The paired light and dark hues are hard to distinguish under red-green color blindness."}
+p1_original <- ggplot(timeline_data,
+                      aes(x = year, y = n, color = label, group = label)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::comma) +
+  scale_color_brewer(palette = "Paired") +
+  labs(
+    title = "Top 3 Baby Names Over Time (Boys and Girls)",
+    x     = "Year",
+    y     = "Number of Babies",
+    color = "Name"
+  ) +
+  theme_minimal()
+
+p1_original
+```
+* **What I redesigned:** The original version above used the RColorBrewer "Paired" palette and encoded sex through color only. Under my own color blindness (deuteranopia) the paired light and dark hues collapse into near-identical colors, and the boys-versus-girls grouping disappears. The redesign switches to **viridis** and adds **line type** as a second channel for sex, so the same information stays readable with reduced or no color perception. The data and the message are unchanged; only the accessibility improves.
+  
 ## Story
 
 The six lines cluster into two clear groups. Female names peak earlier and more sharply: Mary dominated the early decades of the dataset and then fell steadily as naming tastes diversified, while Jennifer exploded in the 1970s before dropping off just as fast. The male names show a similar rise-and-fall shape but tend to peak later and sustain higher counts for longer. James and Robert were both enormously popular through the mid-twentieth century, with the kind of broad, stable usage that kept them in the top three even as individual years went to other names. What stands out most is that no name holds its position permanently. Every peak is followed by a decline, which suggests that popularity itself feeds eventual exhaustion of a name. The elevated counts in the 1950s and 1960s coincide with the Baby Boom, a period of unusually high birth rates in the United States following World War II.
 
 ## Principles Applied
 
-* **Interactivity via plotly:** I used `ggplotly()` to convert a `ggplot2` object into an interactive chart.
-* **Color encoding:** Each name/sex combination gets its own color so boys and girls are visually grouped while still distinguishable.
-
+* **Interactivity via plotly:** I used `ggplotly()` to turn the static `ggplot2` object into an interactive chart. A static line chart only shows the overall shape of each curve; here the reader can hover over any point to read the exact name, sex, year, and count, follow a single name across years without guessing values off the axis, and isolate one line by clicking its legend entry. None of that is possible in a printed image.
+* **Colorblind-safe encoding:** The lines use the **viridis** discrete palette, which stays legible under red-green color blindness (deuteranopia). Sex is encoded a second time through **line type**, so the boys versus girls distinction never relies on color alone.
 ---
 
 # Plot 2: Spatial Visualization of Florida Lakes by Surface Area
@@ -198,9 +218,12 @@ Florida's lakes are not spread evenly across the state. The map shows a clear co
 ## Principles Applied
 
 * **Interactive spatial visualization with leaflet:** The map is built with the
-  `leaflet` package instead of static `ggplot2 + geom_sf()`. This gives users
-  free zoom and pan out of the box, which is essential when the data spans a whole
-  state but individual lakes can be very small.
+  `leaflet` package instead of static `ggplot2 + geom_sf()`. The interactivity
+  is what makes the data usable: the lakes span a whole state but many are tiny,
+  so a static image either shows the whole state and loses the small lakes, or
+  zooms in and loses the context. Here the reader can zoom and pan freely to any
+  region and hover over any single lake to read its exact name and surface area,
+  which a fixed image cannot offer.
 * **Hover tooltips:** Tooltip on hover showing the lake name and its surface area.
 * **Color-blind-friendly palette:** The **viridis** color scale is applied, preserving the same perceptual uniformity and accessibility as the original design.
 * **Log transformation on the fill scale:** Lake areas span several orders of
@@ -319,6 +342,8 @@ The scatter plot shows a clear relationship : larger houses are worth more, and 
 
 * **Consistent color scheme** across all three sub-plots (purple and orange)
   reinforces that they belong to the same analysis.
+
+
 
 ---
 
