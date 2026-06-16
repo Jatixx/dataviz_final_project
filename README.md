@@ -28,16 +28,24 @@ finding: summer hits keep getting more energetic and danceable, but their valenc
 Full report and detailed change log in the `project_01/` folder.
 
 
-## Project 02
+## Project 02: Baby Names, Florida Lakes, and House Values
+In this project, I explored three different visualization types in one report: how baby
+naming trends shift over time, how Florida's lakes are distributed across the state, and
+whether house size predicts assessed value. All color choices were made with accessibility
+in mind, since I have deuteranopia. Find the code and report in the `project_02/` folder.
 
-In this project, I explored ... _[short description of your revised project goes here]_ Find the code and report in the `project_02/` folder.
+**Favorite chart:** the interactive baby names timeline, because it shows the long naming
+waves at a glance and lets the reader hover to pull up the exact count for any name and
+year. It also doubles as my before/after redesign.
 
-**Sample data visualization:**
+![Line chart of the three most popular boys' and girls' names over time, colored with the viridis palette and with sex shown by line type, where female names peak earlier and sharply while male names stay popular longer.](figures/favorite_chart02.png)
 
-_[include your favorite visualization from this project here]_
-<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/fl_higher_ed.png" width="80%" height="80%">
+**Required elements (where addressed):**
+- Interactive: a plotly line chart of the top baby names with hover details, and a leaflet map of Florida lakes with zoom, pan, and per-lake tooltips (Plot 1 and Plot 2).
+- Accessibility: colorblind-safe viridis palettes and alt text on all figures, plus line type on Plot 1 so the series do not rely on color alone.
+- Redesign (before/after): the original version of Plot 1 (Paired palette, sex by color only) shown against the improved version, with an explanation in the report.
 
-(you can place your figures in the `figures/` folder and use the `![](path_to_picture)` option to add the pictures here)
+Full report and detailed change log in the `project_02/` folder.
 
 
 ## Project 3: Exploratory Data Visualization (Weather & Concrete)
