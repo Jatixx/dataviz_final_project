@@ -32,8 +32,6 @@ library(plotly)
 billboard <- read_csv("../data/all_billboard_summer_hits.csv")
 ```
 
-
-
 ---
 
 ## Data Exploration
