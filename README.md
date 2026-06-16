@@ -36,15 +36,34 @@ _[include your favorite visualization from this project here]_
 (you can place your figures in the `figures/` folder and use the `![](path_to_picture)` option to add the pictures here)
 
 
-## Project 03
+## Project 3: Exploratory Data Visualization (Weather & Concrete)
 
-In this project, I explored ... _[short description of the data visualizations you for this part of the project produced goes here]_
+This project reproduces a set of given charts to practice new visualization types and then explores a second dataset of my choice.
 
-**Sample data visualization:** 
+**Part 1 (TPA weather, 2022):** density and distribution plots of daily maximum temperatures, including faceted histograms, single and faceted density plots, a
+ridgeline plot.
 
-_[include your favorite visualization from this project here]_
-<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/concrete_density.png" width="80%" height="80%">
+**Part 2 (Concrete strength):** an exploration of the UCI concrete dataset, looking at
+how compressive strength relates to age and to the mix ingredients (cement, water).
 
+**Required elements and where to find them:**
+
+- **Interactive chart:** a `plotly` bubble plot of strength vs cement (hover shows the
+  cement, water, age, and strength of each mix), in the Part 2 section.
+- **Accessibility:** colorblind-safe viridis palettes throughout, alt text on every
+  figure, and ordered scales instead of color-only encoding.
+- **Redesign (before / after):** a boxplot of strength by age, changed from the default
+  rainbow-like palette to the ordered, colorblind-safe viridis scale, in the redesign
+  section.
+  
+**Favorite chart:** the ridgeline plot of monthly maximum temperatures, because it shows
+all twelve monthly distributions stacked in one compact view and makes the seasonal shift
+from cool, spread-out winters to warm, narrow summers immediately visible.
+
+![Ridgeline plot of maximum temperature distributions by month for 2022 at Tampa airport, filled with the plasma color scale, showing warmer and narrower distributions in summer.](figures/favorite_chart03.png)
+
+Data sources: TPA weather 2022 (FSU Florida Climate Center) and the concrete dataset
+(UCI Machine Learning Repository). Full report in the `project_03/` folder.
 
 ### Moving Forward
 
