@@ -3,9 +3,6 @@
 > Jan Tietz. 
 
 
-The following is a sample of products created during the _"Data Visualization and Reproducible Research"_ course.
-
-
 ## Project 1: The Sound of Summer (Billboard Summer Hits, 1958–2017)
 
 This mini-project explores Spotify audio features for songs that appeared on the
@@ -22,8 +19,13 @@ finding: summer hits keep getting more energetic and danceable, but their valenc
 
 ![Line chart of mean Spotify audio features per decade from the 1950s to the 2010s, showing acousticness dropping, energy and danceability rising, and valence peaking in the 1970s.](figures/favorite_chart.png)
 
-Full report in the `project_01/` folder.
+**Required elements:**
 
+- Interactive plotly version of the danceability vs energy scatterplot, with hover details.
+- Colorblind-safe viridis palettes and alt text on all figures, plus line type added to the trend chart so the series are readable without relying on color.
+- Before/after redesign: _add this line once the redesign block is in the project_01 report._
+
+Full report in the `project_01/` folder.
 ## Project 02
 
 In this project, I explored ... _[short description of your revised project goes here]_ Find the code and report in the `project_02/` folder.
@@ -38,9 +40,11 @@ _[include your favorite visualization from this project here]_
 
 ## Project 3: Exploratory Data Visualization (Weather & Concrete)
 
-This project reproduces a set of given charts to practice new visualization types and then explores a second dataset of my choice.
+This project reproduces a set of given charts to practice new visualization types and
+then explores a second dataset of my choice.
 
-**Part 1 (TPA weather, 2022):** density and distribution plots of daily maximum temperatures, including faceted histograms, single and faceted density plots, a
+**Part 1 (TPA weather, 2022):** density and distribution plots of daily maximum
+temperatures, including faceted histograms, single and faceted density plots, and a
 ridgeline plot.
 
 **Part 2 (Concrete strength):** an exploration of the UCI concrete dataset, looking at
@@ -48,14 +52,10 @@ how compressive strength relates to age and to the mix ingredients (cement, wate
 
 **Required elements and where to find them:**
 
-- **Interactive chart:** a `plotly` bubble plot of strength vs cement (hover shows the
-  cement, water, age, and strength of each mix), in the Part 2 section.
-- **Accessibility:** colorblind-safe viridis palettes throughout, alt text on every
-  figure, and ordered scales instead of color-only encoding.
-- **Redesign (before / after):** a boxplot of strength by age, changed from the default
-  rainbow-like palette to the ordered, colorblind-safe viridis scale, in the redesign
-  section.
-  
+- **Interactive chart:** a `plotly` bubble plot of strength vs cement (hover shows the cement, water, age, and strength of each mix), in the Part 2 section.
+- **Accessibility:** colorblind-safe viridis palettes throughout, alt text on every figure, and ordered scales instead of color-only encoding.
+- **Redesign (before / after):** a boxplot of strength by age, changed from the default rainbow-like palette to the ordered, colorblind-safe viridis scale, shown as a before/after in Part 2.
+
 **Favorite chart:** the ridgeline plot of monthly maximum temperatures, because it shows
 all twelve monthly distributions stacked in one compact view and makes the seasonal shift
 from cool, spread-out winters to warm, narrow summers immediately visible.
