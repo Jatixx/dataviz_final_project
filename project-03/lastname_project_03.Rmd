@@ -164,11 +164,24 @@ new_concrete <- concrete %>%
   mutate(strength_range = cut(Concrete_compressive_strength, 
                               breaks = quantile(Concrete_compressive_strength, 
                                                 probs = seq(0, 1, 0.2))) )
+head(new_concrete)
 ```
 
 
 
 1. Explore the distribution of 2 of the continuous variables available in the dataset. Do ranges make sense? Comment on your findings.
+
+```{r concrete-dist, fig.width=9, fig.height=4, fig.alt="Two histograms side by side showing the distribution of cement and water content across the concrete samples."}
+concrete %>%
+  select(Cement, Water) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(bins = 30, fill = "grey40", color = "white") +
+  facet_wrap(~ variable, scales = "free_x") +
+  labs(x = NULL, y = "Count") +
+  theme_minimal(base_size = 13)
+```
+The ranges seem reasonable.
 
 2. Use a _temporal_ indicator such as the one available in the variable `Age` (measured in days). Generate a plot similar to the one shown below. Comment on your results.
 
@@ -180,7 +193,20 @@ knitr::include_graphics("https://raw.githubusercontent.com/aalhamadani/dataviz_f
 3. Create a scatterplot similar to the one shown below. Pay special attention to which variables are being mapped to specific aesthetics of the plot. Comment on your results. 
 
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
+#plot to reproduce
 knitr::include_graphics("https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/cement_plot.png")
+```
+```{r concrete-cement-bubble, fig.alt="Bubble scatter plot of compressive strength versus cement content. Point color shows water content on a viridis scale and point size shows age in days. Strength rises with cement, and high-water mixes cluster at lower strength."}
+concrete %>%
+  ggplot(aes(x = Cement, y = Concrete_compressive_strength,
+             color = Water, size = Age)) +
+  geom_point(alpha = 0.6) +
+  scale_color_viridis_c() +
+  labs(title = "Exploring Strength versus (Cement, Age, and Water)",
+       x = "Cement", y = "Strength",
+       color = "Water", size = "Age",
+       caption = "Age is measured in days") +
+  theme_minimal(base_size = 13)
 ```
 
 
