@@ -23,7 +23,6 @@ finding: summer hits keep getting more energetic and danceable, but their valenc
 
 - Interactive plotly version of the danceability vs energy scatterplot, with hover details.
 - Colorblind-safe viridis palettes and alt text on all figures, plus line type added to the trend chart so the series are readable without relying on color.
-- Before/after redesign: _add this line once the redesign block is in the project_01 report._
 
 Full report in the `project_01/` folder.
 ## Project 02
