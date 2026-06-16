@@ -188,7 +188,16 @@ The ranges seem reasonable.
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/concrete_strength.png")
 ```
-
+```{r concrete-age-box, fig.alt="Boxplots of concrete compressive strength in MPa grouped by age in days, with boxes colored by strength range. Strength tends to increase with age and with higher strength range."}
+new_concrete %>%
+  ggplot(aes(x = factor(Age), y = Concrete_compressive_strength,
+             fill = strength_range)) +
+  geom_boxplot() +
+  scale_fill_viridis_d() +
+  labs(x = "Age (in days)", y = "Compressive Strength (in MPa)",
+       fill = "Strength Range") +
+  theme_minimal(base_size = 13)
+```
 
 3. Create a scatterplot similar to the one shown below. Pay special attention to which variables are being mapped to specific aesthetics of the plot. Comment on your results. 
 
@@ -209,6 +218,12 @@ concrete %>%
   theme_minimal(base_size = 13)
 ```
 
+The scatterplot reveals how concrete strength depends on cement, water, and curing time:
 
+* **Cement:** Clear positive trend. More cement increases the compressive strength.
+* **Water:** Less water makes the concrete stronger. The strongest mixes (at the top) are dark purple ($125\text{–}150\text{ kg/m}^3$). Too much water (yellow/green dots) keeps the strength low, even with a lot of cement.
+* **Age:** Concrete needs time to cure. Young concrete (small dots) has very little strength and stays under 40. The absolute highest strength values ($\ge 80$) are only reached by old concrete (largest dots, up to 300 days).
+
+**Conclusion:** The strongest concrete requires a combination of high cement, low water content, and maximum curing time.
 
 
