@@ -142,7 +142,7 @@ ggplot(feature_trends, aes(x = decade, y = mean_value,
   )
 ```
 
-<img src="tietz_project_01_files/figure-gfm/plot-trends new-1.png" alt="Line chart of mean Spotify audio features per decade, 1950s to 2010s. Acousticness drops sharply, energy and danceability rise, and valence peaks in the 1970s before declining."  />
+<img src="tietz_project_01_files/figure-gfm/plot-trends-new-1.png" alt="Line chart of mean Spotify audio features per decade, 1950s to 2010s. Acousticness drops sharply, energy and danceability rise, and valence peaks in the 1970s before declining."  />
 I replaced the original Set2 palette with the colorblind-safe viridis
 scale, and each feature is also encoded by line type so the four series
 stay distinguishable without relying on color alone. —
@@ -181,7 +181,19 @@ colorblind-safe, so I kept it. I added a numeric label at the end of
 each bar so the exact hit counts are readable without having to estimate
 bar length. —
 
-## Visualization 3: Distribution of Danceability by Decade
+## Visualization 3: Distribution of Danceability (Before / After)
+
+``` r
+ggplot(billboard, aes(x = decade, y = danceability, fill = decade)) +
+  geom_boxplot(alpha = 0.8, outlier.alpha = 0.3, outlier.size = 1) +
+  scale_fill_brewer(palette = "Spectral") +
+  labs(title = "BEFORE: Danceability by Decade (Spectral rainbow)",
+       x = "Decade", y = "Danceability") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none")
+```
+
+<img src="tietz_project_01_files/figure-gfm/plot-dance-before-1.png" alt="Box plots of danceability by decade colored with a Spectral rainbow palette, where colors imply an order that does not exist in the data."  />
 
 **What story does this tell?** The distribution of danceability scores
 has shifted noticeably across decades. Modern hits cluster at higher
@@ -209,7 +221,7 @@ ggplot(billboard, aes(x = decade, y = danceability, fill = decade)) +
 <img src="tietz_project_01_files/figure-gfm/plot-dance-dist-1.png" alt="Box plots of danceability by decade for Billboard summer hits, 1950s to 2010s. Median danceability rises over time and the spread of values narrows in the most recent decades."  />
 I replaced the Spectral rainbow palette with the colorblind-safe viridis
 scale. The decade is also shown and labeled on the x-axis, so the fill
-is purely decorative and no meaning depends on color alone.\* —
+is purely decorative and no meaning depends on color alone. —
 
 ## Visualization 4: Danceability vs. Energy, Colored by Valence
 
@@ -234,9 +246,13 @@ ggplot(billboard, aes(x = danceability, y = energy, color = valence)) +
 
 <img src="tietz_project_01_files/figure-gfm/plot-scatter-1.png" alt="Scatter plot of danceability versus energy for individual Billboard summer hits, colored by valence on a plasma scale. High-valence songs cluster in the upper right where danceability and energy are both high, though there is wide variety."  />
 
-This plot already uses the colorblind-safe viridis (plasma) scale, so I
-kept it. Valence is a continuous variable, which a smooth color gradient
-communicates well.
+Making this scatterplot interactive turns each anonymous dot into
+something the reader can investigate. Hovering reveals the song title,
+artist, and exact danceability, energy, and valence values, so an
+interesting outlier can be identified by name rather than just located
+on the grid. A static image can only show the overall pattern, whereas
+this version lets the reader explore individual songs and read precise
+values straight from the chart.
 
 ------------------------------------------------------------------------
 
@@ -346,3 +362,12 @@ happiest-sounding songs (bright yellow in the plasma color scale) tend
 to cluster in the upper-right where both energy and danceability are
 high. That fits with the cultural image of what a summer hit is supposed
 to be, though there are plenty of exceptions scattered throughout.
+
+The interactive scatterplot (Visualization 5) takes that same view one
+step further. The static version shows the overall shape of the
+relationship, but it cannot tell you which song sits where. Once you can
+hover over each point and read the title, artist, and exact values, the
+plot stops being just a cloud of dots and becomes something you can
+actually explore. It is easy to pick out a surprising outlier, like a
+low-energy track that still charted, and see exactly what it is rather
+than guessing. That is the part a static image simply cannot do.

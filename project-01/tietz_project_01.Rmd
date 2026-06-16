@@ -2,9 +2,9 @@
 title: "Data Visualization - Mini-Project 1"
 author: "Jan Tietz `jtietz3060@floridapoly.edu`"
 output:
+  github_document: default
   html_document:
     df_print: paged
-  github_document: default
 ---
 
 ```{r setup, include=FALSE}
