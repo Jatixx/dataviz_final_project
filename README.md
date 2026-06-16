@@ -23,7 +23,14 @@ finding: summer hits keep getting more energetic and danceable, but their valenc
 
 - Interactive plotly version of the danceability vs energy scatterplot, with hover details.
 - Colorblind-safe viridis palettes and alt text on all figures, plus line type added to the trend chart so the series are readable without relying on color.
+**Summary of redesign changes (compared to the original version):**
 
+- Line chart (Viz 1): replaced the Set2 palette with the colorblind-safe viridis scale and added line type as a second encoding, so the four series are distinguishable without relying on color alone.
+- Artist bar chart (Viz 2): added a numeric count label at the end of each bar, so exact hit counts are readable without estimating bar length.
+- Boxplot (Viz 3): replaced the Spectral rainbow palette with the colorblind-safe, perceptually uniform viridis scale, and now show the original and the fixed version side by side as a before/after.
+- Scatterplot (Viz 4): kept the colorblind-safe viridis (plasma) scale, since it already communicates the continuous valence variable well.
+- Interactive scatterplot (Viz 5): added an interactive plotly version with hover tooltips showing song title, artist, and exact feature values.
+- Across all figures: added alt text (fig.alt) for screen-reader accessibility, and updated the YAML to also output a github_document (.md) so the report renders correctly on GitHub.
 Full report in the `project_01/` folder.
 ## Project 02
 
