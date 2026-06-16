@@ -56,7 +56,7 @@ timeline_data <- babys %>%
   mutate(label = paste0(name, " (", sex, ")"))
 ```
 
-```{r plot1-plot}
+```{r plot1-plot, fig.alt="Interactive line chart of the yearly count of babies for the three most popular girls' and boys' names. Female names peak earlier and more sharply, while male names stay high for longer. Every name rises, dominates for a while, and then declines."}
 # Build the static ggplot first, then make it interactive with ggplotly()
 p1 <- ggplot(data = timeline_data, aes(x = year, y = n, color = label, group = label,
     text  = paste0(
@@ -135,7 +135,7 @@ lakes_plot <- lakes %>%
   mutate(area_km2 = SHAPEAREA / 1e6)
 ```
 
-```{r plot2-plot}
+```{r plot2-plot, fig.alt="Interactive map of Florida lakes, with each lake shaded by surface area on a log scale using the viridis palette. Lakes cluster in the central peninsula around Polk and Orange counties, with Lake Okeechobee as the largest bright outlier."}
 # Reproject to WGS 84 (EPSG:4326) as required by leaflet
 lakes_wgs84 <- st_transform(lakes_plot, crs = 4326)
 
@@ -242,7 +242,7 @@ tidy(house_model, conf.int = TRUE)
 glance(house_model)
 ```
 
-```{r plot3a-scatter}
+```{r plot3a-scatter, fig.alt="Scatter plot of total assessed house value against living area in square feet for West Roxbury, with an upward linear regression line and confidence band. Larger houses are worth more, with wide scatter around the line."}
 # 3a: Scatter plot with the regression line
 p3a <- ggplot(houses_clean, aes(x = LIVING.AREA, y = TOTAL.VALUE)) +
   geom_point(alpha = 0.3, color = "#5601A4", size = 1.2) +
@@ -259,7 +259,7 @@ p3a <- ggplot(houses_clean, aes(x = LIVING.AREA, y = TOTAL.VALUE)) +
 p3a
 ```
 
-```{r plot3b-coef}
+```{r plot3b-coef, fig.alt="Coefficient plot showing the estimated effect of living area on house value, about 155 dollars per square foot, with a narrow 95 percent confidence interval that does not cross zero."}
 # 3b: Coefficient plot
 house_coefs <- tidy(house_model, conf.int = TRUE) %>%
   filter(term != "(Intercept)")
@@ -280,7 +280,7 @@ p3b <- ggplot(house_coefs,
 p3b
 ```
 
-```{r plot3c-marginal}
+```{r plot3c-marginal, fig.alt="Line chart of predicted house value across living area from the regression model, with a shaded 95 percent confidence band. Predicted value rises steadily, roughly doubling from a 1000 to a 3000 square foot house."}
 # 3c: Marginal effects plot — predicted value across a range of living areas
 new_areas <- tibble(LIVING.AREA = seq(
   min(houses_clean$LIVING.AREA, na.rm = TRUE),
