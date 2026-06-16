@@ -19,6 +19,7 @@ Using the dataset obtained from FSU's [Florida Climate Center](https://climatece
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
+library(ggplot2)
 weather_tpa <- read_csv("https://raw.githubusercontent.com/aalhamadani/datasets/master/tpa_weather_2022.csv")
 # random sample 
 sample_n(weather_tpa, 4)
@@ -31,15 +32,47 @@ Using the 2022 data:
 (a) Create a plot like the one below:
 
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
+#Plot to reproduce
 knitr::include_graphics("https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/tpa_max_temps_facet.png")
 ```
+```{r}
+
+ggplot(weather_tpa, aes(x = max_temp, fill = factor(month))) +
+  # stat = "bin" ist der Standard für Histogramme, r_width sorgt für die Abstände
+  geom_histogram(color = "white", binwidth = 2.5, show.legend = FALSE) +
+  
+  # 3 Reihen, 4 Spalten (passend zur Grafik)
+  facet_wrap(~ month, nrow = 3, ncol = 4) +
+  
+  # Die "Viridis"-Farbpalette sorgt für den exakten Farbverlauf von Lila zu Gelb
+  scale_fill_viridis_d(option = "viridis") + 
+  
+  theme_minimal(base_size = 14) + # Größere Schrift für bessere Lesbarkeit
+  labs(
+    x = "Maximum temperatures",
+    y = "Number of Days"
+  )
+```
+
 
 Hint: the option `binwidth = 3` was used with the `geom_histogram()` function.
 
 (b) Create a plot like the one below:
 
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
+#Plot to reproduce
 knitr::include_graphics("https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/tpa_max_temps_density.png")
+```
+```{r}
+ggplot(weather_tpa, aes(x = max_temp, fill = factor(month))) +
+  geom_density(color = "white", alpha = 0.7, show.legend = FALSE) +
+  scale_fill_viridis_d(option = "viridis") + 
+  theme_minimal() +
+  labs(
+    title = "Monatliche Temperaturprofile (Geglättet)",
+    x = "Maximum Temperature",
+    y = "density"
+  )
 ```
 
 Hint: check the `kernel` parameter of the `geom_density()` function, and use `bw = 0.5`.
