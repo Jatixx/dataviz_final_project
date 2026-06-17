@@ -1,14 +1,14 @@
 ---
 title: "Data Visualization for Exploratory Data Analysis"
 author: "Jan Tietz `jtietz3060@floridapoly.edu`"
-output: 
+output:
+  github_document: default
+  word_document:
+    toc: true
   html_document:
     df_print: paged
     toc: true
     toc_float: true
-  word_document:
-    toc: true
-  github_document: default
 ---
 
 # Data Visualization Project 03

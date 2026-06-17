@@ -31,10 +31,10 @@ sample_n(weather_tpa, 4)
     ## # A tibble: 4 × 8
     ##    year month   day precipitation max_temp min_temp ave_temp month_name
     ##   <dbl> <dbl> <dbl>         <dbl>    <dbl>    <dbl>    <dbl> <fct>     
-    ## 1  2022     3    14       0             81       54     67.5 March     
-    ## 2  2022     1    27       0             74       59     66.5 January   
-    ## 3  2022     9    21       0.00001       93       77     85   September 
-    ## 4  2022     9    28       2.47          76       73     74.5 September
+    ## 1  2022     9     2          1.41       91       73     82   September 
+    ## 2  2022     5    19          0          90       77     83.5 May       
+    ## 3  2022    12    17          0.02       70       54     62   December  
+    ## 4  2022    12    18          0.04       69       51     60   December
 
 See Slides from Week 4 of Visualizing Relationships and Models (slide
 10) for a reminder on how to use this type of dataset with the
