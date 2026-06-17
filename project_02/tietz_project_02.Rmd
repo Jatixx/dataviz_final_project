@@ -9,6 +9,9 @@ output:
     df_print: paged
     toc: true
     toc_float: true
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -34,16 +37,16 @@ lakes  <- st_read("../data/Florida_Lakes.shp", quiet = TRUE)
 houses <- read_csv("../data/WestRoxbury.csv")
 ```
 
----
+------------------------------------------------------------------------
 
 # Plot 1: Interactive Timeline of the Most Popular Baby Names
 
 ## Initial Idea
 
-I wanted to see how the most popular baby names change over time. My plan was to
-find the 3 most frequently used names for boys and the 3 for girls across all years
-combined, and then draw an interactive line chart so you can hover over any year
-and see the exact count.
+I wanted to see how the most popular baby names change over time. My
+plan was to find the 3 most frequently used names for boys and the 3 for
+girls across all years combined, and then draw an interactive line chart
+so you can hover over any year and see the exact count.
 
 ```{r plot1-wrangle}
 # Find the top 3 names for each sex by total count across all years
@@ -60,7 +63,7 @@ timeline_data <- babys %>%
   mutate(label = paste0(name, " (", sex, ")"))
 ```
 
-```{r plot1-plot, fig.alt="Interactive line chart of the yearly count of babies for the three most popular girls' and boys' names. Female names peak earlier and more sharply, while male names stay high for longer. Every name rises, dominates for a while, and then declines."}
+```{r plot1-plot-new, fig.alt="Interactive line chart of the yearly count of babies for the three most popular girls' and boys' names. Female names peak earlier and more sharply, while male names stay high for longer. Every name rises, dominates for a while, and then declines."}
 # Build the static ggplot first, then make it interactive with ggplotly()
 p1 <- ggplot(data = timeline_data, aes(x = year, y = n, color = label, linetype = sex, group = label,
     text  = paste0(
@@ -108,8 +111,9 @@ saveWidget(interactive_p1, "./plot1_names_timeline.html",
 
 interactive_p1
 ```
-The interactive chart above is a redesign of my original Plot 1. For comparison,
-here is the original version as I first submitted it.
+
+The interactive chart above is a redesign of my original Plot 1. For
+comparison, here is the original version as I first submitted it.
 
 ```{r plot1-original, fig.alt="Static version of the baby-names line chart in its original form, using the RColorBrewer Paired palette with sex encoded by color only. The paired light and dark hues are hard to distinguish under red-green color blindness."}
 p1_original <- ggplot(timeline_data,
@@ -127,30 +131,58 @@ p1_original <- ggplot(timeline_data,
 
 p1_original
 ```
-* **What I redesigned:** The original version above used the RColorBrewer "Paired" palette and encoded sex through color only. Under my own color blindness (deuteranopia) the paired light and dark hues collapse into near-identical colors, and the boys-versus-girls grouping disappears. The redesign switches to **viridis** and adds **line type** as a second channel for sex, so the same information stays readable with reduced or no color perception. The data and the message are unchanged; only the accessibility improves.
-  
+
+-   **What I redesigned:** The original version above used the
+    RColorBrewer "Paired" palette and encoded sex through color only.
+    Under my own color blindness (deuteranopia) the paired light and
+    dark hues collapse into near-identical colors, and the
+    boys-versus-girls grouping disappears. The redesign switches to
+    **viridis** and adds **line type** as a second channel for sex, so
+    the same information stays readable with reduced or no color
+    perception. The data and the message are unchanged; only the
+    accessibility improves.
+
 ## Story
 
-The six lines cluster into two clear groups. Female names peak earlier and more sharply: Mary dominated the early decades of the dataset and then fell steadily as naming tastes diversified, while Jennifer exploded in the 1970s before dropping off just as fast. The male names show a similar rise-and-fall shape but tend to peak later and sustain higher counts for longer. James and Robert were both enormously popular through the mid-twentieth century, with the kind of broad, stable usage that kept them in the top three even as individual years went to other names. What stands out most is that no name holds its position permanently. Every peak is followed by a decline, which suggests that popularity itself feeds eventual exhaustion of a name. The elevated counts in the 1950s and 1960s coincide with the Baby Boom, a period of unusually high birth rates in the United States following World War II.
+The six lines cluster into two clear groups. Female names peak earlier
+and more sharply: Mary dominated the early decades of the dataset and
+then fell steadily as naming tastes diversified, while Jennifer exploded
+in the 1970s before dropping off just as fast. The male names show a
+similar rise-and-fall shape but tend to peak later and sustain higher
+counts for longer. James and Robert were both enormously popular through
+the mid-twentieth century, with the kind of broad, stable usage that
+kept them in the top three even as individual years went to other names.
+What stands out most is that no name holds its position permanently.
+Every peak is followed by a decline, which suggests that popularity
+itself feeds eventual exhaustion of a name. The elevated counts in the
+1950s and 1960s coincide with the Baby Boom, a period of unusually high
+birth rates in the United States following World War II.
 
 ## Principles Applied
 
-* **Interactivity via plotly:** I used `ggplotly()` to turn the static `ggplot2` object into an interactive chart. A static line chart only shows the overall shape of each curve; here the reader can hover over any point to read the exact name, sex, year, and count, follow a single name across years without guessing values off the axis, and isolate one line by clicking its legend entry. None of that is possible in a printed image.
-* **Colorblind-safe encoding:** The lines use the **viridis** discrete palette, which stays legible under red-green color blindness (deuteranopia). Sex is encoded a second time through **line type**, so the boys versus girls distinction never relies on color alone.
----
+-   **Interactivity via plotly:** I used `ggplotly()` to turn the static
+    `ggplot2` object into an interactive chart. A static line chart only
+    shows the overall shape of each curve; here the reader can hover
+    over any point to read the exact name, sex, year, and count, follow
+    a single name across years without guessing values off the axis, and
+    isolate one line by clicking its legend entry. None of that is
+    possible in a printed image.
+
+-   **Colorblind-safe encoding:** The lines use the **viridis** discrete palette, which stays legible under red-green color blindness (deuteranopia). Sex is encoded a second time through **line type**, so the boys versus girls distinction never relies on color alone.
 
 # Plot 2: Spatial Visualization of Florida Lakes by Surface Area
 
 ## Initial Idea
 
-I wanted to put the Florida lakes on an interactive map and encode the surface area
-through color, so larger lakes stand out immediately. Because I am color blind
-(deuteranopia, red-green color blindness), I chose the **viridis** palette.
-Viridis is specifically designed to be perceptually uniform and readable for the
-most common forms of color blindness. Rather than a static `ggplot2` map, I used
-**leaflet** to make the visualization fully interactive: users can zoom in freely,
-pan across the state, and hover over any lake polygon to see its name and exact
-surface area in a tooltip.
+I wanted to put the Florida lakes on an interactive map and encode the
+surface area through color, so larger lakes stand out immediately.
+Because I am color blind (deuteranopia, red-green color blindness), I
+chose the **viridis** palette. Viridis is specifically designed to be
+perceptually uniform and readable for the most common forms of color
+blindness. Rather than a static `ggplot2` map, I used **leaflet** to
+make the visualization fully interactive: users can zoom in freely, pan
+across the state, and hover over any lake polygon to see its name and
+exact surface area in a tooltip.
 
 ```{r plot2-wrangle}
 # The shapefile already contains SHAPEAREA (in square meters).
@@ -209,46 +241,62 @@ p2 <- leaflet(lakes_wgs84,
   )
 
 # Save self-contained HTML export
-saveWidget(p2, "./plot2_lakes_interactive.html",
-           selfcontained = TRUE)
+#saveWidget(p2, "./plot2_lakes_interactive.html",
+#           selfcontained = TRUE)
 
 p2
 ```
 
 ## Story
 
-Florida's lakes are not spread evenly across the state. The map shows a clear concentration in the central peninsula, particularly in Polk and Orange counties, which sit on top of the karst limestone geology that produces sinkholes and lake basins. The panhandle and the southern tip are comparatively sparse. Most lakes are tiny: the legend scale is logarithmic, and the bulk of the state shows the dark end of the viridis palette. The bright yellow outliers, which are Lake Okeechobee in the south and a handful of large lakes in the central ridge, are genuinely exceptional in size relative to the rest of the distribution.
+Florida's lakes are not spread evenly across the state. The map shows a
+clear concentration in the central peninsula, particularly in Polk and
+Orange counties, which sit on top of the karst limestone geology that
+produces sinkholes and lake basins. The panhandle and the southern tip
+are comparatively sparse. Most lakes are tiny: the legend scale is
+logarithmic, and the bulk of the state shows the dark end of the viridis
+palette. The bright yellow outliers, which are Lake Okeechobee in the
+south and a handful of large lakes in the central ridge, are genuinely
+exceptional in size relative to the rest of the distribution.
 
 ## Principles Applied
 
-* **Interactive spatial visualization with leaflet:** The map is built with the
-  `leaflet` package instead of static `ggplot2 + geom_sf()`. The interactivity
-  is what makes the data usable: the lakes span a whole state but many are tiny,
-  so a static image either shows the whole state and loses the small lakes, or
-  zooms in and loses the context. Here the reader can zoom and pan freely to any
-  region and hover over any single lake to read its exact name and surface area,
-  which a fixed image cannot offer.
-* **Hover tooltips:** Tooltip on hover showing the lake name and its surface area.
-* **Color-blind-friendly palette:** The **viridis** color scale is applied, preserving the same perceptual uniformity and accessibility as the original design.
-* **Log transformation on the fill scale:** Lake areas span several orders of
-  magnitude. Applying `log1p()` before mapping to color prevents the handful of
-  very large lakes from washing out all contrast for medium and small lakes.
-* **Removing polygon borders** (`color = NA, weight = 0`) reduces visual clutter
-  when many small polygons are displayed close together, identical to the original.
-* **CartoDB Positron basemap:** A neutral greyscale tile layer provides geographic
-  context (coastline, county shapes) without competing with the viridis fill colors.
+-   **Interactive spatial visualization with leaflet:** The map is built
+    with the `leaflet` package instead of static `ggplot2 + geom_sf()`.
+    The interactivity is what makes the data usable: the lakes span a
+    whole state but many are tiny, so a static image either shows the
+    whole state and loses the small lakes, or zooms in and loses the
+    context. Here the reader can zoom and pan freely to any region and
+    hover over any single lake to read its exact name and surface area,
+    which a fixed image cannot offer.
+-   **Hover tooltips:** Tooltip on hover showing the lake name and its
+    surface area.
+-   **Color-blind-friendly palette:** The **viridis** color scale is
+    applied, preserving the same perceptual uniformity and accessibility
+    as the original design.
+-   **Log transformation on the fill scale:** Lake areas span several
+    orders of magnitude. Applying `log1p()` before mapping to color
+    prevents the handful of very large lakes from washing out all
+    contrast for medium and small lakes.
+-   **Removing polygon borders** (`color = NA, weight = 0`) reduces
+    visual clutter when many small polygons are displayed close
+    together, identical to the original.
+-   **CartoDB Positron basemap:** A neutral greyscale tile layer
+    provides geographic context (coastline, county shapes) without
+    competing with the viridis fill colors.
 
----
+------------------------------------------------------------------------
 
 # Plot 3: Linear Regression of House Value on Living Area
 
 ## Initial Idea
 
-The West Roxbury dataset contains house prices and living area in square feet. My
-idea was to fit a simple linear regression predicting `TOTAL.VALUE` from
-`LIVING.AREA`, visualize the regression line with a confidence band using
-`geom_smooth()`, and then also produce a **coefficient plot** showing the model
-estimates with their 95 % confidence intervals.
+The West Roxbury dataset contains house prices and living area in square
+feet. My idea was to fit a simple linear regression predicting
+`TOTAL.VALUE` from `LIVING.AREA`, visualize the regression line with a
+confidence band using `geom_smooth()`, and then also produce a
+**coefficient plot** showing the model estimates with their 95 %
+confidence intervals.
 
 ```{r plot3-wrangle}
 cat("Rows:", nrow(houses), " | Columns:", ncol(houses))
@@ -340,40 +388,60 @@ p3c
 
 ## Story
 
-The scatter plot shows a clear relationship : larger houses are worth more, and the trend is consistent enough that a straight line captures it well. The coefficient plot puts a number on it. Each additional square foot is associated with roughly $155 in total assessed value, and the confidence interval is narrow enough that the estimate is precise. The marginal effects plot shows the same information in a more readable form: going from a 1,000 sq ft house to a 3,000 sq ft house roughly doubles the predicted value. The residual scatter around the line is wide though, which means living area explains a good portion of the variance but is far from the whole story. Other factors like lot size, number of floors, or year built would reduce that spread.
+The scatter plot shows a clear relationship : larger houses are worth
+more, and the trend is consistent enough that a straight line captures
+it well. The coefficient plot puts a number on it. Each additional
+square foot is associated with roughly \$155 in total assessed value,
+and the confidence interval is narrow enough that the estimate is
+precise. The marginal effects plot shows the same information in a more
+readable form: going from a 1,000 sq ft house to a 3,000 sq ft house
+roughly doubles the predicted value. The residual scatter around the
+line is wide though, which means living area explains a good portion of
+the variance but is far from the whole story. Other factors like lot
+size, number of floors, or year built would reduce that spread.
 
 ## Principles Applied
 
-* **Consistent color scheme** across all three sub-plots (purple and orange)
-  reinforces that they belong to the same analysis.
+-   **Consistent color scheme** across all three sub-plots (purple and
+    orange) reinforces that they belong to the same analysis.
 
-
-
----
+------------------------------------------------------------------------
 
 # Discussion
 
 ## What charts did I plan and what cleaning was needed?
 
-I planned three visualizations: (1) an interactive time-series of baby names,
-(2) an interactive choropleth map of Florida lakes with hover tooltips, and
-(3) a regression model of house values.
-The baby names RDS was already tidy. The shapefile already contains a `SHAPEAREA`
-column in square meters, which we converted to square kilometers directly, and then
-reprojected to WGS 84 (EPSG:4326) as required by leaflet. The West Roxbury CSV
-uses spaces in its column names, so `rename_with()` was used to replace spaces
-with dots before modelling.
+I planned three visualizations: (1) an interactive time-series of baby
+names, (2) an interactive choropleth map of Florida lakes with hover
+tooltips, and (3) a regression model of house values. The baby names RDS
+was already tidy. The shapefile already contains a `SHAPEAREA` column in
+square meters, which we converted to square kilometers directly, and
+then reprojected to WGS 84 (EPSG:4326) as required by leaflet. The West
+Roxbury CSV uses spaces in its column names, so `rename_with()` was used
+to replace spaces with dots before modelling.
 
 ## What story do the plots tell?
 
-The baby names chart shows that naming trends move in long waves: names rise fast, dominate for a generation, and then fall off as the next wave comes in. The lakes map shows that Florida's lakes are geographically concentrated in the central karst belt and are  small, with a handful of outliers that dwarf the rest. The regression plots confirm a strong positive relationship between house size and assessed value in West Roxbury, though the scatter around the line is wide enough to suggest that size alone is not a complete predictor of price.
-## Additional Approaches
-As an additional approach to explore the data, future analyses could use a multiple regression model to investigate which other variables year built, significantly influence house prices.
-
+The baby names chart shows that naming trends move in long waves: names
+rise fast, dominate for a generation, and then fall off as the next wave
+comes in. The lakes map shows that Florida's lakes are geographically
+concentrated in the central karst belt and are small, with a handful of
+outliers that dwarf the rest. The regression plots confirm a strong
+positive relationship between house size and assessed value in West
+Roxbury, though the scatter around the line is wide enough to suggest
+that size alone is not a complete predictor of price. \## Additional
+Approaches As an additional approach to explore the data, future
+analyses could use a multiple regression model to investigate which
+other variables year built, significantly influence house prices.
 
 ## How were visualization principles applied?
 
-* **Interactivity** Hover tooltips and zoom are used in Plot 1 (plotly) and Plot 2 (leaflet) so readers can explore individual data points and lake polygons directly.
-* **Spatial encoding** Geographic position and color hue encode two dimensions of the lake data simultaneously.
-* **Model visualization** All three sub-plots for the regression model follow the coefficient plot and marginal effects workflow.
-* **Color accessibility:** viridis palette in Plot 2 and a single-hue scheme in Plot 3 ensure readability for color-blind readers.
+-   **Interactivity** Hover tooltips and zoom are used in Plot 1
+    (plotly) and Plot 2 (leaflet) so readers can explore individual data
+    points and lake polygons directly.
+-   **Spatial encoding** Geographic position and color hue encode two
+    dimensions of the lake data simultaneously.
+-   **Model visualization** All three sub-plots for the regression model
+    follow the coefficient plot and marginal effects workflow.
+-   **Color accessibility:** viridis palette in Plot 2 and a single-hue
+    scheme in Plot 3 ensure readability for color-blind readers.

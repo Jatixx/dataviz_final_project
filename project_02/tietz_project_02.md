@@ -96,7 +96,8 @@ saveWidget(interactive_p1, "./plot1_names_timeline.html",
 interactive_p1
 ```
 
-<img src="tietz_project_02_files/figure-gfm/plot1-plot-1.png" alt="Interactive line chart of the yearly count of babies for the three most popular girls' and boys' names. Female names peak earlier and more sharply, while male names stay high for longer. Every name rises, dominates for a while, and then declines."  />
+<img src="tietz_project_02_files/figure-gfm/plot1-plot-new-1.png" alt="Interactive line chart of the yearly count of babies for the three most popular girls' and boys' names. Female names peak earlier and more sharply, while male names stay high for longer. Every name rises, dominates for a while, and then declines."  />
+
 The interactive chart above is a redesign of my original Plot 1. For
 comparison, here is the original version as I first submitted it.
 
@@ -118,14 +119,15 @@ p1_original
 ```
 
 <img src="tietz_project_02_files/figure-gfm/plot1-original-1.png" alt="Static version of the baby-names line chart in its original form, using the RColorBrewer Paired palette with sex encoded by color only. The paired light and dark hues are hard to distinguish under red-green color blindness."  />
-\* **What I redesigned:** The original version above used the
-RColorBrewer “Paired” palette and encoded sex through color only. Under
-my own color blindness (deuteranopia) the paired light and dark hues
-collapse into near-identical colors, and the boys-versus-girls grouping
-disappears. The redesign switches to **viridis** and adds **line type**
-as a second channel for sex, so the same information stays readable with
-reduced or no color perception. The data and the message are unchanged;
-only the accessibility improves.
+
+- **What I redesigned:** The original version above used the
+  RColorBrewer “Paired” palette and encoded sex through color only.
+  Under my own color blindness (deuteranopia) the paired light and dark
+  hues collapse into near-identical colors, and the boys-versus-girls
+  grouping disappears. The redesign switches to **viridis** and adds
+  **line type** as a second channel for sex, so the same information
+  stays readable with reduced or no color perception. The data and the
+  message are unchanged; only the accessibility improves.
 
 ## Story
 
@@ -153,7 +155,10 @@ birth rates in the United States following World War II.
   isolate one line by clicking its legend entry. None of that is
   possible in a printed image.
 
-- ## **Colorblind-safe encoding:** The lines use the **viridis** discrete palette, which stays legible under red-green color blindness (deuteranopia). Sex is encoded a second time through **line type**, so the boys versus girls distinction never relies on color alone.
+- **Colorblind-safe encoding:** The lines use the **viridis** discrete
+  palette, which stays legible under red-green color blindness
+  (deuteranopia). Sex is encoded a second time through **line type**, so
+  the boys versus girls distinction never relies on color alone.
 
 # Plot 2: Spatial Visualization of Florida Lakes by Surface Area
 
@@ -226,8 +231,8 @@ p2 <- leaflet(lakes_wgs84,
   )
 
 # Save self-contained HTML export
-saveWidget(p2, "./plot2_lakes_interactive.html",
-           selfcontained = TRUE)
+#saveWidget(p2, "./plot2_lakes_interactive.html",
+#           selfcontained = TRUE)
 
 p2
 ```
