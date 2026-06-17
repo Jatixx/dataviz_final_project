@@ -104,6 +104,8 @@ ggplot(feature_trends, aes(x = decade, y = mean_value,
   )
 ```
 I replaced the original Set2 palette with the colorblind-safe viridis scale, and each feature is also encoded by line type so the four series stay distinguishable without relying on color alone.
+
+
 ---
 
 ## Visualization 2: Top 15 Artists by Number of Summer Hits
@@ -224,7 +226,10 @@ interactive_scatter <- billboard %>%
 ggplotly(interactive_scatter, tooltip = "text")
 ```
 
+
 Making this scatterplot interactive turns each anonymous dot into something the reader can investigate. Hovering reveals the song title, artist, and exact danceability, energy, and valence values, so an interesting outlier can be identified by name rather than just located on the grid. A static image can only show the overall pattern, whereas this version lets the reader explore individual songs and read precise values straight from the chart.
+
+
 ---
 
 ## Discussion

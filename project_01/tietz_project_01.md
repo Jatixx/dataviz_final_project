@@ -145,7 +145,9 @@ ggplot(feature_trends, aes(x = decade, y = mean_value,
 <img src="tietz_project_01_files/figure-gfm/plot-trends-new-1.png" alt="Line chart of mean Spotify audio features per decade, 1950s to 2010s. Acousticness drops sharply, energy and danceability rise, and valence peaks in the 1970s before declining."  />
 I replaced the original Set2 palette with the colorblind-safe viridis
 scale, and each feature is also encoded by line type so the four series
-stay distinguishable without relying on color alone. —
+stay distinguishable without relying on color alone.
+
+------------------------------------------------------------------------
 
 ## Visualization 2: Top 15 Artists by Number of Summer Hits
 
@@ -245,14 +247,9 @@ ggplot(billboard, aes(x = danceability, y = energy, color = valence)) +
 ```
 
 <img src="tietz_project_01_files/figure-gfm/plot-scatter-1.png" alt="Scatter plot of danceability versus energy for individual Billboard summer hits, colored by valence on a plasma scale. High-valence songs cluster in the upper right where danceability and energy are both high, though there is wide variety."  />
-
-Making this scatterplot interactive turns each anonymous dot into
-something the reader can investigate. Hovering reveals the song title,
-artist, and exact danceability, energy, and valence values, so an
-interesting outlier can be identified by name rather than just located
-on the grid. A static image can only show the overall pattern, whereas
-this version lets the reader explore individual songs and read precise
-values straight from the chart.
+This plot already uses the colorblind-safe viridis (plasma) scale, so I
+kept it. Valence is a continuous variable, which a smooth color gradient
+communicates well.
 
 ------------------------------------------------------------------------
 
@@ -284,9 +281,14 @@ ggplotly(interactive_scatter, tooltip = "text")
 ```
 
 <img src="tietz_project_01_files/figure-gfm/plot-interactive-1.png" alt="Interactive scatter plot of danceability versus energy for Billboard summer hits, colored by valence. Hovering over a point shows the song title, artist, and exact values."  />
-This plot already uses the colorblind-safe viridis (plasma) scale, so I
-kept it. Valence is a continuous variable, which a smooth color gradient
-communicates well.
+
+Making this scatterplot interactive turns each anonymous dot into
+something the reader can investigate. Hovering reveals the song title,
+artist, and exact danceability, energy, and valence values, so an
+interesting outlier can be identified by name rather than just located
+on the grid. A static image can only show the overall pattern, whereas
+this version lets the reader explore individual songs and read precise
+values straight from the chart.
 
 ------------------------------------------------------------------------
 
@@ -320,7 +322,7 @@ My original plan was:
 
 ### What story could you tell with your plots?
 
-Taken together, the four visualizations tell a pretty coherent story
+Taken together, the five visualizations tell a pretty coherent story
 about how popular summer music changed between 1958 and 2017. The short
 version is: summer hits got louder, more beat-driven, and less acoustic.
 But there are some more interesting wrinkles in that story.
