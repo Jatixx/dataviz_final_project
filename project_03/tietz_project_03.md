@@ -31,10 +31,10 @@ sample_n(weather_tpa, 4)
     ## # A tibble: 4 × 8
     ##    year month   day precipitation max_temp min_temp ave_temp month_name
     ##   <dbl> <dbl> <dbl>         <dbl>    <dbl>    <dbl>    <dbl> <fct>     
-    ## 1  2022     2     7       0             70       54     62   February  
-    ## 2  2022    10    28       0.71          87       72     79.5 October   
-    ## 3  2022    10    17       0.00001       86       75     80.5 October   
-    ## 4  2022     7    20       0             93       83     88   July
+    ## 1  2022     3    14       0             81       54     67.5 March     
+    ## 2  2022     1    27       0             74       59     66.5 January   
+    ## 3  2022     9    21       0.00001       93       77     85   September 
+    ## 4  2022     9    28       2.47          76       73     74.5 September
 
 See Slides from Week 4 of Visualizing Relationships and Models (slide
 10) for a reminder on how to use this type of dataset with the
@@ -127,6 +127,27 @@ the *viridis* palette.
 5)  Create a plot of your choice that uses the attribute for
     precipitation *(values of -99.9 for temperature or -99.99 for
     precipitation represent missing data)*.
+
+``` r
+weather_tpa %>%
+  filter(precipitation > -99) %>%
+  group_by(month_name) %>%
+  summarise(total_precip = sum(precipitation)) %>%
+  ggplot(aes(x = month_name, y = total_precip, fill = total_precip)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_viridis_c() +
+  labs(title = "Total monthly precipitation at TPA (2022)",
+       x = "Month", y = "Total precipitation (inches)") +
+  theme_minimal(base_size = 13) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+<img src="tietz_project_03_files/figure-gfm/precip-bars-1.png" alt="Bar chart of total monthly precipitation at Tampa airport in 2022. Rainfall is highest in the summer months and lowest in the winter."  />
+“The summer months from **June** to **September** have the most
+rainfall, peaking in **September** at around **12.3** inches. The driest
+months are **January** and **February**, with under **1.5** inches.
+Overall, 2022 shows a clear pattern of wet summers and dry winters at
+TPA.”
 
 ## PART 2
 
@@ -269,6 +290,22 @@ and even drops slightly again.
 <img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/cement_plot.png" alt="" width="80%" style="display: block; margin: auto;" />
 
 ``` r
+concrete %>%
+  ggplot(aes(x = Cement, y = Concrete_compressive_strength,
+             color = Water, size = Age)) +
+  geom_point(alpha = 0.6) +
+  scale_color_viridis_c() +
+  labs(title = "Exploring Strength versus (Cement, Age, and Water)",
+       x = "Cement", y = "Strength",
+       color = "Water", size = "Age",
+       caption = "Age is measured in days") +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+<img src="tietz_project_03_files/figure-gfm/concrete-cement-bubble-1.png" alt="Bubble scatter plot of compressive strength versus cement content. Point color shows water content on a viridis scale and point size shows age in days."  />
+
+``` r
 p <- concrete %>%
   ggplot(aes(x = Cement, y = Concrete_compressive_strength,
              color = Water, size = Age,
@@ -286,6 +323,10 @@ ggplotly(p, tooltip = "text")
 ```
 
 <img src="tietz_project_03_files/figure-gfm/concrete-interactive-1.png" alt="Interactive bubble scatter plot of strength versus cement; hovering over a point shows its cement, strength, water, and age values."  />
+
+While the static plot shows general trends, the interactive hovering
+feature allows for precise reading of exact formulation values (cement,
+water, age, and strength) for every specific concrete mix sample.
 
 The scatterplot reveals how concrete strength depends on cement, water,
 and curing time:
