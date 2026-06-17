@@ -77,4 +77,10 @@ Data sources: TPA weather 2022 (FSU Florida Climate Center) and the concrete dat
 
 ### Moving Forward
 
-_Please add here a short reflection on what you learned and what you plan to continue exploring in terms of data visualization, data storytelling, reproducible research, and/or related topics._
+This project covered interactive charts (plotly, leaflet), colorblind-safe
+palettes (viridis), alt text, and a reproducible github_document workflow. The
+accessibility part was directly relevant to me, since I have deuteranopia, and a
+colorblind-safe palette plus a second encoding is now my default.
+
+I plan to apply these principles to my data analysis work in consulting, where
+the goal is to turn data into clear stories for decision makers.
