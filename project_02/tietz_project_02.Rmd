@@ -429,10 +429,10 @@ concentrated in the central karst belt and are small, with a handful of
 outliers that dwarf the rest. The regression plots confirm a strong
 positive relationship between house size and assessed value in West
 Roxbury, though the scatter around the line is wide enough to suggest
-that size alone is not a complete predictor of price. \## Additional
-Approaches As an additional approach to explore the data, future
-analyses could use a multiple regression model to investigate which
-other variables year built, significantly influence house prices.
+that size alone is not a complete predictor of price. 
+## AdditionalApproaches 
+As an additional approach to explore the data, future
+analyses could use a multiple regression model to investigate which other variables, such as year built, significantly influence house prices.
 
 ## How were visualization principles applied?
 
