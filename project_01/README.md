@@ -11,6 +11,13 @@ valence, tempo, loudness, acousticness) plus track, artist, and year for each su
 The full report, including all code and figures, is in `tietz_project_01.Rmd` and its
 knitted `.html` and `.md` versions in this folder.
 
+## Required packages
+
+This project uses R with the following packages:
+
+```r
+install.packages(c("tidyverse", "plotly"))
+```
 
 ## Required elements
 
@@ -43,3 +50,17 @@ knitted `.html` and `.md` versions in this folder.
 - **Across all figures:** added alt text (`fig.alt`) for screen-reader accessibility, and
   updated the YAML to also output a `github_document` (.md) so the report renders correctly
   on GitHub.
+  
+```
+dataviz_final_project/
+├── README.md                 # top-level executive summary
+├── data/
+│   └── all_billboard_summer_hits.csv
+├── project_01/
+│   ├── README.md             # this file
+│   ├── tietz_project_01.Rmd
+│   ├── tietz_project_01.html
+│   └── tietz_project_01.md
+├── project_02/
+└── project_03/
+```
