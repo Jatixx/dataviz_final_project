@@ -51,13 +51,17 @@ install.packages(c("tidyverse", "plotly"))
   updated the YAML to also output a `github_document` (.md) so the report renders correctly
   on GitHub.
   
+  
+  
+## Folder Structure
+
 ```
 dataviz_final_project/
-├── README.md                 # top-level executive summary
+├── README.md               
 ├── data/
 │   └── all_billboard_summer_hits.csv
 ├── project_01/
-│   ├── README.md             # this file
+│   ├── README.md
 │   ├── tietz_project_01.Rmd
 │   ├── tietz_project_01.html
 │   └── tietz_project_01.md
