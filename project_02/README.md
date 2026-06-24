@@ -20,15 +20,6 @@ This project uses R with the following packages:
 ```r
 install.packages(c("tidyverse", "sf", "plotly", "htmlwidgets", "broom", "leaflet", "leaflet.extras"))
 ```
-
-## How to reproduce
-
-1. Clone the repository and open the `.Rproj` file in RStudio.
-2. Install the packages listed above.
-3. Open `tietz_project_02.Rmd` and click **Knit**. This regenerates the `.html` and `.md`
-   outputs from the raw data using only the relative path `../data/`, so the project runs
-   on any computer without changing file paths.
-
 ## Findings
 
 - **Baby names:** Naming trends follow long waves. Female names like Mary and Jennifer
