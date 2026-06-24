@@ -1,4 +1,5 @@
 # Project 2: Baby Names, Florida Lakes, and House Values
+
 This mini-project explores three different types of visualization in one report:
 how baby naming trends shift over time, how Florida's lakes are distributed across
 the state, and whether house size predicts assessed value. All color choices were
@@ -6,13 +7,30 @@ made with accessibility in mind, since I have deuteranopia (red/green color blin
 
 **Data:**
 - `data/babynames.rds`: year-by-year name counts in the US, split by sex
-- `data/Florida_Lakes.shp`: lake polygons for Florida with surface area and name
+- `data/Florida_Lakes.shp`: lake polygons for Florida with surface area and name (plus the companion `.dbf`, `.shx`, and `.prj` files)
 - `data/WestRoxbury.csv`: assessed property values and attributes for homes in West Roxbury, Boston
 
 The full report, including all code and figures, is in `tietz_project_02.Rmd` and
 its knitted `.html` and `.md` versions in this folder.
 
+## Required packages
+
+This project uses R with the following packages:
+
+```r
+install.packages(c("tidyverse", "sf", "plotly", "htmlwidgets", "broom", "leaflet", "leaflet.extras"))
+```
+
+## How to reproduce
+
+1. Clone the repository and open the `.Rproj` file in RStudio.
+2. Install the packages listed above.
+3. Open `tietz_project_02.Rmd` and click **Knit**. This regenerates the `.html` and `.md`
+   outputs from the raw data using only the relative path `../data/`, so the project runs
+   on any computer without changing file paths.
+
 ## Findings
+
 - **Baby names:** Naming trends follow long waves. Female names like Mary and Jennifer
   peaked sharply and fell off fast; male names like James and Robert stayed popular longer
   but also eventually declined. No name holds the top spot permanently.
@@ -24,6 +42,7 @@ its knitted `.html` and `.md` versions in this folder.
   line is wide, so size alone leaves a lot unexplained.
 
 ## Required elements
+
 - **Interactive chart:** Plot 1 is a plotly line chart where hovering over any point shows
   the exact name, sex, year, and count, and single names can be isolated via the legend.
   Plot 2 is a leaflet map with free zoom, pan, and per-lake hover tooltips. The
@@ -37,6 +56,7 @@ its knitted `.html` and `.md` versions in this folder.
   redesign fixes it.
 
 ## Summary of redesign changes (compared to the original version)
+
 - **Baby names timeline (Plot 1):** replaced the RColorBrewer "Paired" palette with the
   colorblind-safe viridis scale and added line type as a second encoding for sex, so the
   six series are distinguishable without relying on color alone. The original version is
@@ -49,3 +69,21 @@ its knitted `.html` and `.md` versions in this folder.
 - **Across all figures:** added alt text (`fig.alt`) for screen-reader accessibility, and
   updated the YAML to also output a `github_document` (.md) so the report renders correctly
   on GitHub.
+
+## Folder structure
+
+```
+dataviz_final_project/
+├── README.md               
+├── data/
+│   ├── babynames.rds
+│   ├── Florida_Lakes.shp
+│   └── WestRoxbury.csv
+├── project_02/
+│   ├── README.md
+│   ├── tietz_project_02.Rmd
+│   ├── tietz_project_02.html
+│   └── tietz_project_02.md
+├── project_01/
+└── project_03/
+```
