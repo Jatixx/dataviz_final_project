@@ -140,10 +140,12 @@ counts for longer. James and Robert were both enormously popular through
 the mid-twentieth century, with the kind of broad, stable usage that
 kept them in the top three even as individual years went to other names.
 What stands out most is that no name holds its position permanently.
-Every peak is followed by a decline, which suggests that popularity
-itself feeds eventual exhaustion of a name. The elevated counts in the
-1950s and 1960s coincide with the Baby Boom, a period of unusually high
-birth rates in the United States following World War II.
+Every name in the chart rises, dominates for a period, and then
+declines. The chart shows this pattern clearly, but it only describes
+the change in counts over time and cannot by itself explain why a name
+falls out of use. The elevated counts in the 1950s and 1960s coincide
+with the Baby Boom, a period of unusually high birth rates in the United
+States following World War II.
 
 ## Principles Applied
 
@@ -231,8 +233,8 @@ p2 <- leaflet(lakes_wgs84,
   )
 
 # Save self-contained HTML export
-#saveWidget(p2, "./plot2_lakes_interactive.html",
-#           selfcontained = TRUE)
+saveWidget(p2, "./plot2_lakes_interactive.html",
+           selfcontained = TRUE)
 
 p2
 ```
@@ -291,12 +293,6 @@ confidence band using `geom_smooth()`, and then also produce a
 confidence intervals.
 
 ``` r
-cat("Rows:", nrow(houses), " | Columns:", ncol(houses))
-```
-
-    ## Rows: 5802  | Columns: 14
-
-``` r
 # Column names in this CSV contain spaces (e.g. "TOTAL VALUE", "LIVING AREA").
 # Replace spaces with dots so R can reference them without backticks.
 houses_clean <- houses %>%
@@ -305,26 +301,7 @@ houses_clean <- houses %>%
 
 # Fit simple linear regression: Total Value ~ Living Area
 house_model <- lm(TOTAL.VALUE ~ LIVING.AREA, data = houses_clean)
-
-# Inspect model coefficients and fit statistics with broom
-tidy(house_model, conf.int = TRUE)
 ```
-
-    ## # A tibble: 2 × 7
-    ##   term        estimate std.error statistic p.value conf.low conf.high
-    ##   <chr>          <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
-    ## 1 (Intercept)  138.      2.30         60.1       0  134.      143.   
-    ## 2 LIVING.AREA    0.154   0.00132     117.        0    0.151     0.156
-
-``` r
-glance(house_model)
-```
-
-    ## # A tibble: 1 × 12
-    ##   r.squared adj.r.squared sigma statistic p.value    df  logLik    AIC    BIC
-    ##       <dbl>         <dbl> <dbl>     <dbl>   <dbl> <dbl>   <dbl>  <dbl>  <dbl>
-    ## 1     0.701         0.701  54.3    13583.       0     1 -31403. 62813. 62833.
-    ## # ℹ 3 more variables: deviance <dbl>, df.residual <int>, nobs <int>
 
 ``` r
 # 3a: Scatter plot with the regression line

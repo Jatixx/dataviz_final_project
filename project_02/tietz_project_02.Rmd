@@ -2,13 +2,13 @@
 title: "Data Visualization Mini-Project 2"
 author: "Jan Tietz - jtietz3060@floridapoly.edu"
 output:
-  github_document: default
-  word_document:
-    toc: true
   html_document:
     df_print: paged
     toc: true
     toc_float: true
+  github_document: default
+  word_document:
+    toc: true
 editor_options: 
   markdown: 
     wrap: 72
@@ -153,10 +153,12 @@ counts for longer. James and Robert were both enormously popular through
 the mid-twentieth century, with the kind of broad, stable usage that
 kept them in the top three even as individual years went to other names.
 What stands out most is that no name holds its position permanently.
-Every peak is followed by a decline, which suggests that popularity
-itself feeds eventual exhaustion of a name. The elevated counts in the
-1950s and 1960s coincide with the Baby Boom, a period of unusually high
-birth rates in the United States following World War II.
+Every name in the chart rises, dominates for a period, and then
+declines. The chart shows this pattern clearly, but it only describes
+the change in counts over time and cannot by itself explain why a name
+falls out of use. The elevated counts in the 1950s and 1960s coincide
+with the Baby Boom, a period of unusually high birth rates in the
+United States following World War II.
 
 ## Principles Applied
 
@@ -241,8 +243,8 @@ p2 <- leaflet(lakes_wgs84,
   )
 
 # Save self-contained HTML export
-#saveWidget(p2, "./plot2_lakes_interactive.html",
-#           selfcontained = TRUE)
+saveWidget(p2, "./plot2_lakes_interactive.html",
+           selfcontained = TRUE)
 
 p2
 ```
@@ -298,9 +300,6 @@ confidence band using `geom_smooth()`, and then also produce a
 **coefficient plot** showing the model estimates with their 95 %
 confidence intervals.
 
-```{r plot3-wrangle}
-cat("Rows:", nrow(houses), " | Columns:", ncol(houses))
-```
 
 ```{r plot3-model}
 # Column names in this CSV contain spaces (e.g. "TOTAL VALUE", "LIVING AREA").
@@ -311,10 +310,6 @@ houses_clean <- houses %>%
 
 # Fit simple linear regression: Total Value ~ Living Area
 house_model <- lm(TOTAL.VALUE ~ LIVING.AREA, data = houses_clean)
-
-# Inspect model coefficients and fit statistics with broom
-tidy(house_model, conf.int = TRUE)
-glance(house_model)
 ```
 
 ```{r plot3a-scatter, fig.alt="Scatter plot of total assessed house value against living area in square feet for West Roxbury, with an upward linear regression line and confidence band. Larger houses are worth more, with wide scatter around the line."}
@@ -447,3 +442,4 @@ analyses could use a multiple regression model to investigate which other variab
     follow the coefficient plot and marginal effects workflow.
 -   **Color accessibility:** viridis palette in Plot 2 and a single-hue
     scheme in Plot 3 ensure readability for color-blind readers.
+    
